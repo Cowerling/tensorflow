@@ -23,8 +23,8 @@ def get_weight_variable(shape, regularizer):
     return weights
 
 
-def get_biases_variable(shape):
-    biases = tf.get_variable('biases', shape=shape, initializer=tf.constant_initializer(0.1))
+def get_biases_variable(shape, value=0):
+    biases = tf.get_variable('biases', shape=shape, initializer=tf.constant_initializer(value))
     return biases
 
 
@@ -53,7 +53,7 @@ def inference(input_tensor, train, regularizer):
 
     with tf.variable_scope('layer5-fc1'):
         fc1_weights = get_weight_variable([nodes, FC_SIZE], regularizer)
-        fc1_biases = get_biases_variable([FC_SIZE])
+        fc1_biases = get_biases_variable([FC_SIZE], 0.1)
         fc1 = tf.nn.relu(tf.matmul(reshaped, fc1_weights) + fc1_biases)
 
         if train:
@@ -61,7 +61,7 @@ def inference(input_tensor, train, regularizer):
 
     with tf.variable_scope('layer6-fc2'):
         fc2_weights = get_weight_variable([FC_SIZE, NUM_LABELS], regularizer)
-        fc2_biases = get_biases_variable([NUM_LABELS])
+        fc2_biases = get_biases_variable([NUM_LABELS], 0.1)
         logit = tf.matmul(fc1, fc2_weights) + fc2_biases
 
     return logit
