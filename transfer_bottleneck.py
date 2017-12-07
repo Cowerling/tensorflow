@@ -6,7 +6,7 @@ from tensorflow.python.platform import gfile
 
 import transfer_image
 
-CACHE_DIR = ''
+CACHE_DIR = 'E:\\PycharmProjects\\tensorflow\\bottleneck'
 
 
 def get_bottleneck_path(image_lists, label_name, index, category):
@@ -90,8 +90,8 @@ def get_test_bottlenecks(sess, image_lists, n_classes, image_data_tensor, bottle
                 sess, image_lists, label_name, index, category,
                 image_data_tensor, bottleneck_tensor)
             ground_truck = np.zeros(n_classes, dtype=np.float32)
+            ground_truck[label_index] = 1.0
             bottlenecks.append(bottleneck)
             ground_trucks.append(ground_truck)
 
     return bottlenecks, ground_trucks
-

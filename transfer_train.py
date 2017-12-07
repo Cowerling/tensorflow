@@ -11,8 +11,8 @@ BOTTLENECK_TENSOR_SIZE = 2048
 BOTTLENECK_TENSOR_NAME = 'pool_3/_reshape:0'
 IMAGE_DATA_TENSOR_NAME = 'DecodeJpeg/contents:0'
 
-MODEL_DIR = ''
-MODEL_FILE = 'classify_image_graph_def.pb'
+MODEL_DIR = 'E:\\PycharmProjects\\tensorflow\\model'
+MODEL_FILE = 'tensorflow_inception_graph.pb'
 
 VALIDATION_PERCENTAGE = 10
 TEST_PERCENTAGE = 10
@@ -46,7 +46,8 @@ def main(argv=None):
         logits = tf.matmul(bottleneck_input, weights) + biases
         final_tensor = tf.nn.softmax(logits)
 
-    cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=ground_truth_input)
+    #cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=tf.argmax(ground_truth_input, 1))
+    cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=ground_truth_input)
     cross_entropy_mean = tf.reduce_mean(cross_entropy)
     train_step = tf.train.GradientDescentOptimizer(LEARNING_RATE).minimize(cross_entropy_mean)
 
@@ -64,7 +65,7 @@ def main(argv=None):
                     sess, n_classes, image_lists, BATCH, 'training',
                     image_data_tensor, bottleneck_tensor)
             sess.run(train_step,
-                     feed_dict={bottleneck_input: transfer_bottleneck,
+                     feed_dict={bottleneck_input: train_bottlenecks,
                                 ground_truth_input: train_ground_truth})
 
             if i % 100 == 0 or i + 1 == STEPS:

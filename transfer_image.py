@@ -2,7 +2,7 @@ import glob
 import os.path
 import numpy as np
 
-INPUT_DATA = ''
+INPUT_DATA = 'E:\\PycharmProjects\\tensorflow\\flower_photos'
 
 
 def create_image_lists(testing_percentage, validation_percentage):
