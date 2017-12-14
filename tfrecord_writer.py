@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
-BASE_PATH = '/home/cowerling'
+BASE_PATH = 'E:/PycharmProjects'
 
 
 def _int64_feature(value):
@@ -16,13 +16,13 @@ def _bytes_feature(value):
 
 
 mnist = input_data.read_data_sets(
-    os.path.join(BASE_PATH, 'PycharmProjects/tensorflow/mnist'), dtype=tf.uint8, one_hot=True)
+    os.path.join(BASE_PATH, 'tensorflow/mnist'), dtype=tf.uint8, one_hot=True)
 images = mnist.train.images
 labels = mnist.train.labels
 pixels = images.shape[1]
 num_examples = mnist.train.num_examples
 
-filename = os.path.join(BASE_PATH, 'PycharmProjects/tensorflow/tfrecord/output.tfrecords')
+filename = os.path.join(BASE_PATH, 'tensorflow/tfrecord/output.tfrecords')
 writer = tf.python_io.TFRecordWriter(filename)
 
 for index in range(num_examples):

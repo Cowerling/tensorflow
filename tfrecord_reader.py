@@ -2,11 +2,11 @@ import os
 
 import tensorflow as tf
 
-BASE_PATH = '/home/cowerling'
+BASE_PATH = 'E:/PycharmProjects'
 
 reader = tf.TFRecordReader()
 filename_queue = tf.train.string_input_producer([
-    os.path.join(BASE_PATH, 'PycharmProjects/tensorflow/tfrecord/output.tfrecords')])
+    os.path.join(BASE_PATH, 'tensorflow/tfrecord/output.tfrecords')])
 
 _, serialized_example = reader.read(filename_queue)
 features = tf.parse_single_example(
@@ -24,6 +24,6 @@ with tf.Session() as sess:
     coord = tf.train.Coordinator()
     threads = tf.train.start_queue_runners(sess=sess, coord=coord)
     
-    for i in range(10):
+    for i in range(1):
         image, label, pixel = sess.run([images, labels, pixels])
         print(image)
