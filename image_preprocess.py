@@ -20,9 +20,13 @@ def distort_color(image):
         process = processes[index]
         parameter = parameters[index]
 
-        if index == 0 or index == 2:
+        if index == 0:
             image = process(image, max_delta=parameter)
-        else:
+        elif index == 1 and image.shape[2] == 3:
+            image = process(image, max_delta=parameter)
+        elif index == 2 and image.shape[2] == 3:
+            image = process(image, max_delta=parameter)
+        elif index == 3:
             image = process(image, lower=parameter[0], upper=parameter[1])
 
 
@@ -40,20 +44,12 @@ def preprocess_for_train(image, height, width, bbox=None):
     distorted_image = tf.slice(image, bbox_begin, bbox_size)
     distorted_image = tf.image.resize_images(distorted_image, [height, width], method=tf.image.ResizeMethod.BICUBIC)
 
-    height = distorted_image.eval().shape[0]
-    width = distorted_image.eval().shape[1]
-    channels = distorted_image.eval().shape[2]
-    for i in range(height):
-        for j in range(width):
-            for x in range(channels):
-                if distorted_image.eval()[i, j, x] < 0 or distorted_image.eval()[i, j, x] >= 1:
-                    print(distorted_image.eval()[i, j, x])
-
     distort_color(distorted_image)
 
     return distorted_image
 
 
+'''
 BASE_PATH = 'E:/PycharmProjects'
 image_path = os.path.join(BASE_PATH, 'tensorflow/picture/picture.jpg')
 image_raw_data = tf.gfile.FastGFile(image_path, 'rb').read()
@@ -68,3 +64,4 @@ with tf.Session() as sess:
         print(result.eval())
         plt.imshow(result.eval())
         plt.show()
+'''

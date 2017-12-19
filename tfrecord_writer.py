@@ -22,6 +22,11 @@ labels = mnist.train.labels
 pixels = images.shape[1]
 num_examples = mnist.train.num_examples
 
+with tf.Session() as sess:
+    print(labels)
+    l = sess.run(tf.argmax(labels, 1))
+    print(l)
+
 filename = os.path.join(BASE_PATH, 'tensorflow/tfrecord/output.tfrecords')
 writer = tf.python_io.TFRecordWriter(filename)
 
